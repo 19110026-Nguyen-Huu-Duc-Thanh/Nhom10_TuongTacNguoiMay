@@ -4,7 +4,7 @@ import addressReducer from "../slices/addressSlice";
 import productReducer from "../slices/productSlice";
 import categoryReducer from "../slices/categorySlice";
 import cartReducer from "../slices/cartSlice";
-// import userReducer from "../slices/userSlice";
+import userReducer from "../slices/userSlice";
 import orderReducer from "../slices/orderSlice";
 
 const store = configureStore({
@@ -14,7 +14,7 @@ const store = configureStore({
     address: addressReducer,
     product: productReducer,
     category: categoryReducer,
-    // user: userReducer,
+    user: userReducer,
     order: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>

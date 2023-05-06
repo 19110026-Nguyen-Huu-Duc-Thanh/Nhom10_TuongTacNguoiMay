@@ -7,7 +7,7 @@ import { getCartItems } from "./slices/cartSlice";
 // import { getUserAddress } from "./slices/addressSlice";
 import { isUserLoggedIn } from "./slices/authSlice";
 import { getCategories } from "./slices/categorySlice";
-// import { getUsers } from "./slices/userSlice";
+import { getUsers } from "./slices/userSlice";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) =>  state.auth);
@@ -18,7 +18,7 @@ function App() {
     if (user.role === 'admin') {
       const checkAdmin = () => {
         // dispatch(getAllOrders());
-        // dispatch(getUsers());
+        dispatch(getUsers());
       }
       checkAdmin();
     }
