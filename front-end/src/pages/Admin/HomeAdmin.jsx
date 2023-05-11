@@ -16,34 +16,34 @@ const Content = styled.div`
   
 `
 const HomeAdmin = () => {
-  // const { users } = useSelector((state) => state.user);
-  //   const { categories } = useSelector((state) => state.category);
-  // const { orders } = useSelector((state) => state.order);
+  const { users } = useSelector((state) => state.user);
+    const { categories } = useSelector((state) => state.category);
+  const { orders } = useSelector((state) => state.order);
 
   let priceTotal = 0;
   let order = 0;
   let packed = 0;
   let shipped = 0;
 
-  // orders.map((item, index) => {
-  //   if(item.paymentStatus === "completed")
-  //   {
-  //     priceTotal += item.totalAmount;
-  //   }
-  //   if(item.orderStatus[0].isCompleted === true)
-  //   {
-  //     order+=1
-  //   }
-  //   if(item.orderStatus[1].isCompleted === true)
-  //   {
-  //     packed+=1
-  //   }
-  //   if(item.orderStatus[2].isCompleted === true)
-  //   {
-  //     shipped+=1
-  //   }
+  orders.map((item, index) => {
+    if(item.paymentStatus === "completed")
+    {
+      priceTotal += item.totalAmount;
+    }
+    if(item.orderStatus[0].isCompleted === true)
+    {
+      order+=1
+    }
+    if(item.orderStatus[1].isCompleted === true)
+    {
+      packed+=1
+    }
+    if(item.orderStatus[2].isCompleted === true)
+    {
+      shipped+=1
+    }
 
-  // })
+  })
 
   return (
     <Container>
@@ -55,7 +55,7 @@ const HomeAdmin = () => {
           </h4>
         </div>
         <Row xs={1} md={2} className="g-4">
-          {/* <Col>
+          <Col>
             <Card bg={"Light".toLowerCase()}>
               <Card.Body>
                 <Card.Title>TỔNG DOANH THU</Card.Title>
@@ -114,7 +114,7 @@ const HomeAdmin = () => {
                 </Card.Text>
               </Card.Body>
             </Card>
-          </Col> */}
+          </Col>
         </Row>
       </Content>
     </Container>
