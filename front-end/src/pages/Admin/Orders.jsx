@@ -159,7 +159,7 @@ const Orders = () => {
             });
           return (
             <tr key={index}>
-              <td>{index}</td>
+              <td>{index+1}</td>
               <td >{item.address.name}</td>
               <td>{item.address.address}</td>
               <td>{item.address.phone}</td>

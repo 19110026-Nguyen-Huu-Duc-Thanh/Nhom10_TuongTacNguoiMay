@@ -214,7 +214,7 @@ const Catagories = () => {
           currentOrders.map((item, index) => 
           (
             <tr key={index}>
-              <td>{index}</td>
+              <td>{index+1}</td>
               <td>{item.name}</td>
               <td><img src={item.categoryImage} alt=''></img></td>
               <td>
