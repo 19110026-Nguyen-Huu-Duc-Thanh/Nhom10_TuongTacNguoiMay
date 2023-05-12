@@ -9,6 +9,7 @@ import AddProductDialog from "../../components/UI/AddProductDialog";
 import { addProduct, setDisableProduct, getProductsDisable, getProducts, updateProduct, setDisableProductFasle } from "../../slices/productSlice";
 import { toast } from "react-toastify";
 import { getAllOrders } from "../../slices/orderSlice";
+import Pagination from "react-paginate";
 
 const Container = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const Content = styled.div`
 `
 const Products = () => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(0);
   const { products } = useSelector((state) => state.product);
   const [show, setShow] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
@@ -67,6 +69,15 @@ const Products = () => {
     productPictures: [],
     productPictureToChange: []
   });
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const ordersPerPage = 10;
+  const pageCount = Math.ceil(products.length / ordersPerPage);
+  const offset = currentPage * ordersPerPage;
+  const currentOrders = products.slice(offset, offset + ordersPerPage);
+
   const [variantName, setVariantName] = useState([]);
   const [variantQuantity, setVariantQuantity] = useState([]);
 
@@ -202,7 +213,7 @@ const Products = () => {
       productPictures: item.productPictures,
       productPictureToChange: []
     });
-    item.variants.map((it,index) => {
+    item.currentOrders.map((it,index) => {
       variantName.push(it.name);
       variantQuantity.push(it.quantity);
       variants.push({name: variantName[index], quantity: variantQuantity[index]})
@@ -274,7 +285,7 @@ const Products = () => {
         </thead>
         <tbody>
         {
-          products.map((item, index) => 
+          currentOrders.map((item, index) => 
           (
             <tr key={index}>
               <td>{index}</td>
@@ -311,6 +322,18 @@ const Products = () => {
         }
         </tbody>
       </Table>
+      <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+        />
       </Content>
     </Container>
   );

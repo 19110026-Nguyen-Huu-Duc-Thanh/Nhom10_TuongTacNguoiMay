@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCategotyDialog from "../../components/UI/AddCatagoryDialog";
 import { toast } from "react-toastify";
 import { addCategories, getCategories, getCategoryDisabled, setDisableCategories, updateCategories } from "../../slices/categorySlice";
+import Pagination from "react-paginate";
 
 const Container = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const Content = styled.div`
   }
 `
 const Catagories = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
   const [show, setShow] = useState(false);
@@ -63,6 +65,14 @@ const Catagories = () => {
     categoryImageToChange: null,
   })
 
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const ordersPerPage = 10;
+  const pageCount = Math.ceil(categories.length / ordersPerPage);
+  const offset = currentPage * ordersPerPage;
+  const currentOrders = categories.slice(offset, offset + ordersPerPage);
   const handleName = (event) => {
     setCategoryInfo({ ...categoryInfo, name: event.target.value });
   };
@@ -200,8 +210,8 @@ const Catagories = () => {
           </tr>
         </thead>
         <tbody>
-        {categories.length > 0 ? (
-          categories.map((item, index) => 
+        {currentOrders.length > 0 ? (
+          currentOrders.map((item, index) => 
           (
             <tr key={index}>
               <td>{index}</td>
@@ -224,7 +234,20 @@ const Catagories = () => {
         }
         </tbody>
       </Table>
+      <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+        />
       </Content>
+      
     </Container>
   );
 }

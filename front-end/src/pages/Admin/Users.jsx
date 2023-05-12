@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import Table from 'react-bootstrap/Table';
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import Pagination from "react-paginate";
 
 const Container = styled.div`
   display: flex;
@@ -45,6 +46,15 @@ const Content = styled.div`
 `
 const Users = () => {
   const { users } = useSelector((state) => state.user);
+  const [currentPage, setCurrentPage] = useState(0);
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const ordersPerPage = 10;
+  const pageCount = Math.ceil(users.length / ordersPerPage);
+  const offset = currentPage * ordersPerPage;
+  const currentOrders = users.slice(offset, offset + ordersPerPage);
   return (
     <Container>
       <Sidebar/>
@@ -68,7 +78,7 @@ const Users = () => {
         </thead>
         <tbody>
         {
-          users.map((item, index) => 
+          currentOrders.map((item, index) => 
           (
             <tr key={index}>
               <td>{index}</td>
@@ -84,6 +94,18 @@ const Users = () => {
         }
         </tbody>
       </Table>
+      <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+        />
       </Content>
     </Container>
   );

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import InfoOrderDialog from "../../components/UI/InfoOrderDialog";
 import UpdateOrderDialog from "../../components/UI/UpdateOrderDialog";
+import Pagination from "react-paginate";
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const Content = styled.div`
   }
 `
 const Orders = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const { orders } = useSelector((state) => state.order);
   const [show, setShow] = useState(false);
   const [showe, setShowe] = useState(false);
@@ -58,13 +60,23 @@ const Orders = () => {
     paymentStatus: '',
     orderStatusL: [],
   });
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const ordersPerPage = 10;
+  const pageCount = Math.ceil(orders.length / ordersPerPage);
+  const offset = currentPage * ordersPerPage;
+  const currentOrders = orders.slice(offset, offset + ordersPerPage);
 
   const handleOrderStatus = (e) => {
     setOrderInfo({...orderInfo, orderStatus: e.target.value});
   }
+
   const handlePaymentStatus = (e) => {
     setOrderInfo({...orderInfo, paymentStatus: e.target.value});
   }
+
   const handleInfoBtn = (item) => {
     setShow((prev) => !prev);
     let status = 0;
@@ -80,6 +92,7 @@ const Orders = () => {
       orderStatusL: item.orderStatus
     });
   };
+
   const handleEditBtn = (item) => {
     setShowe((prev) => !prev);
     let status = 0;
@@ -137,7 +150,7 @@ const Orders = () => {
         </thead>
         <tbody>
         {
-          orders.map((item, index) => {
+          currentOrders.map((item, index) => {
             let starus = 0;
             item.orderStatus.map((chil, index) => {
               if (chil.isCompleted === true) {
@@ -165,6 +178,18 @@ const Orders = () => {
         }
         </tbody>
       </Table>
+          <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+        />
       </Content>
     </Container>
   );
