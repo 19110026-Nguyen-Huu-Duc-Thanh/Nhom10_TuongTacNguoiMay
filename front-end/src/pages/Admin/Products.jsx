@@ -213,7 +213,7 @@ const Products = () => {
       productPictures: item.productPictures,
       productPictureToChange: []
     });
-    item.currentOrders.map((it,index) => {
+    item.variants.map((it,index) => {
       variantName.push(it.name);
       variantQuantity.push(it.quantity);
       variants.push({name: variantName[index], quantity: variantQuantity[index]})
